@@ -1,0 +1,29 @@
+.button {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+.default {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+}
+
+.default:hover {
+  background-color: #1d4ed8;
+}
+
+.outline {
+  background-color: transparent;
+  color: #2563eb;
+  border: 2px solid #2563eb;
+}
+
+.outline:hover {
+  background-color: #eff6ff;
+}
