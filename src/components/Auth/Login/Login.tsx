@@ -1,6 +1,6 @@
 "use client";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import ForgotPasswordModal from "@/components/Modals/ResetPassword";
@@ -28,10 +28,10 @@ export default function LoginPage() {
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { error  } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${location.origin}/auth/callback`,
+        redirectTo: `${location.origin}/templates`,
       },
     });
 
@@ -40,6 +40,20 @@ export default function LoginPage() {
     }
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (session) {
+        window.location.href = "/templates";
+      }
+    };
+
+    checkSession();
+  }, []);
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,7 +68,6 @@ export default function LoginPage() {
     if (signInError) {
       setError(true);
       setErrCode(signInError.code || "error");
-      alert(signInError.message);
       setIsLoading(false);
       return;
     }
@@ -63,7 +76,6 @@ export default function LoginPage() {
     if (!userId) {
       setError(true);
       setErrCode("no_user");
-      alert("Foydalanuvchi aniqlanmadi.");
       setIsLoading(false);
       return;
     }
@@ -77,14 +89,10 @@ export default function LoginPage() {
     if (profileError) {
       setError(true);
       setErrCode("no_profile");
-      alert("Foydalanuvchi profili topilmadi.");
       setIsLoading(false);
       return;
     }
-
-    console.log("✅ Login va profile ma'lumot:", profile);
     window.location.href = "/templates";
-
     setIsLoading(false);
   };
 
