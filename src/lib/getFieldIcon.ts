@@ -1,0 +1,48 @@
+import {
+  Award,
+  BriefcaseBusiness,
+  ExternalLink,
+  Globe,
+  GraduationCap,
+  Mail,
+  MapPin,
+  Phone,
+  User,
+} from "lucide-react";
+
+export const getFieldIcon = (fieldName: string) => {
+  const iconMap: Record<string, React.ComponentType<any>> = {
+    photo: User,
+    fullName: User,
+    position: BriefcaseBusiness,
+    title: BriefcaseBusiness,
+    phone: Phone,
+    email: Mail,
+    location: MapPin,
+    siteLink: Globe,
+    portfolio: ExternalLink,
+    about: User,
+    workExperience: BriefcaseBusiness,
+    education: GraduationCap,
+    projects: BriefcaseBusiness,
+    certifications: GraduationCap,
+    skills: Globe,
+    languages: Globe,
+    socialLinks: Globe,
+    sertificates: Award,
+    company: BriefcaseBusiness,
+    description: User,
+    startDate: MapPin,
+    endDate: MapPin,
+    name: User,
+    text: User,
+    url: ExternalLink,
+    icon: Award,
+    platform: Globe,
+    technologies: Globe,
+    year: Award,
+    issuer: Award,
+    date: MapPin,
+  };
+  return iconMap[fieldName] || User;
+};

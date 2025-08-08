@@ -1,6 +1,7 @@
 import { TEMPLATE_LISTS } from "@/constants/tempLatesLists";
 import Image from "next/image";
 import { Eye } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 
 export const TempLateLists = () => {
@@ -28,9 +29,9 @@ export const TempLateLists = () => {
             </div>
 
             <div className="absolute inset-0 flex items-end mb-2 justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <button className="bg-[#670ec7] text-white px-4 py-2 rounded-md shadow-md hover:bg-[#5b06b5]">
+              <Link href={`templates/${list.slug}`} className="bg-[#670ec7] text-white px-4 py-2 rounded-md shadow-md hover:bg-[#5b06b5]">
                 Tanlash
-              </button>
+              </Link>
             </div>
           </div>
         ))}

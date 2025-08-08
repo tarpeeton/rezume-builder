@@ -1,6 +1,5 @@
 "use client"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Header } from "./Header"
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/userStore";
@@ -40,7 +39,6 @@ export const MainTemplates = () => {
   return (
     <main>
       {/* header */}
-      <Header />
       <div className="bg-slate-50">
         <Banner />
         <TempLateLists />
