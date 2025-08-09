@@ -3,7 +3,7 @@
 import { FileUpload } from "@/components/ui/fileUpload";
 import { Templates } from "@/constants/templates";
 import { getFieldIcon } from "@/lib/getFieldIcon";
-import { getFieldLabel } from "@/lib/getFieldLabel";
+import { getFieldLabel , getFieldPlaceholder } from "@/lib/getFieldLabel";
 import { IUserProfileSchema } from "@/types/defeault-template";
 import { Plus, Trash2 } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -17,6 +17,9 @@ import { WorkExprience } from "@/components/ui/WorkExprience";
 import { Education } from "@/components/ui/Education";
 import { Sertificates } from "@/components/ui/Sertificates";
 import { useResumeStore } from "@/store/useResumeStore";
+import { ModernResumeTemplate } from "../temp/modern-temp";
+import { ModernPlusResumeTemplate } from "../temp/modern-plus";
+import { ModernProResumeTemplate } from "../temp/modern-pro";
 
 
 interface ArrayItemTemplate {
@@ -26,7 +29,7 @@ interface ArrayItemTemplate {
 
 const DynamicResumeForm: React.FC = () => {
   const { slug } = useParams();
-  const selectedTemplate = Templates.find((temp) => temp.slug === slug);
+
 
   const { updateField, addItem, updateItem, deleteItem, ...formData } =
     useResumeStore();
@@ -40,6 +43,8 @@ const DynamicResumeForm: React.FC = () => {
     ) => {
       const Icon = getFieldIcon(fieldName);
       const label = getFieldLabel(fieldName);
+      const PlaceHolder = getFieldPlaceholder(fieldName)
+
       if (fieldName === "photo") {
         return (
           <div key={String(key)} className="mb-6">
@@ -69,7 +74,7 @@ const DynamicResumeForm: React.FC = () => {
               onChange={(e) => updateField(key as any, e.target.value as any)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
               rows={4}
-              placeholder={`${label}ni kiriting...`}
+              placeholder={PlaceHolder}
             />
           </div>
         );
@@ -97,7 +102,7 @@ const DynamicResumeForm: React.FC = () => {
             value={typeof value === "string" ? value : ""}
             onChange={(e) => updateField(key as any, e.target.value as any)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            placeholder={`${label}ni kiriting...`}
+            placeholder={PlaceHolder}
           />
         </div>
       );
@@ -120,7 +125,7 @@ const DynamicResumeForm: React.FC = () => {
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-center justify-between">
             <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-800">
-              {getFieldIcon(fieldName as string)({ className: "w-5 h-5" })}
+
               {getFieldLabel(fieldName as string)}
             </h3>
             <button
@@ -168,15 +173,13 @@ const DynamicResumeForm: React.FC = () => {
     [addItem, updateItem, deleteItem]
   );
 
-  if (!selectedTemplate) {
-    return <div>Shablon topilmadi</div>;
-  }
+
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 space-y-6 max-h-[80vh] overflow-y-auto">
+      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 space-y-6 lg:max-h-[100vh] overflow-y-auto">
         {Object.entries(formData).map(([key, value]) => {
-          console.log(key , ':' , value , 'KEY_VALUE')
+          console.log(key, ":", value, "KEY_VALUE");
           if (Array.isArray(value)) {
             return renderArrayField(
               key as keyof IUserProfileSchema,
@@ -191,8 +194,20 @@ const DynamicResumeForm: React.FC = () => {
           );
         })}
       </div>
-      <div className="bg-white rounded-lg shadow-sm pb-5 border border-gray-200 max-h-[80vh] overflow-y-auto">
-        <DefaultTemplate data={formData} image={formData.photo} />
+      <div className="bg-white rounded-lg shadow-sm pb-5 border border-gray-200 max-h-[100vh] overflow-y-auto">
+        {slug === "default-temp" && (
+          <DefaultTemplate data={formData} image={formData.photo} />
+        )}
+
+        {slug === "modern-temp" && (
+          <ModernResumeTemplate data={formData} image={formData.photo} />
+        )}
+        {slug === "modern-plus-temp" && (
+          <ModernPlusResumeTemplate data={formData} image={formData.photo} />
+        )}
+        {slug === "modern-pro-temp" && (
+          <ModernProResumeTemplate data={formData} image={formData.photo} />
+        )}
       </div>
     </div>
   );

@@ -40,7 +40,9 @@ export const useResumeStore = create<IUseResumeStore>((set) => ({
   email: "tarpeetonteam@gmail.com",
   location: "Toshkent Viloyati , Yuqori Chirchiq Tumani",
   siteLink: "https://devpulse.uz",
-  socialLinks: [],
+  socialLinks: [
+    { id: "0x-2xxo-x", icon: "Telegram", url: "https://t.me/tot_rustem" },
+  ],
   skills: [
     { id: "1", text: "React.js" },
     { id: "2", text: "Next.js" },
